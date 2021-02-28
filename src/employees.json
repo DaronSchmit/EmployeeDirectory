@@ -1,0 +1,26 @@
+[
+    {
+        "id": 1,
+        "name": "George DeBest",
+        "title": "Stockman",
+        "startDate": "5-10-2019"
+    },
+    {
+        "id": 2,
+        "name": "Bethany Doesthemost",
+        "title": "Leader",
+        "startDate": "7-11-2017"
+    },
+    {
+        "id": 3,
+        "name": "Martha Toegold",
+        "title": "Nurse",
+        "startDate": "2-23-2000"
+    },
+    {
+        "id": 4,
+        "name": "Nuemann Byerly",
+        "title": "Trainee",
+        "startDate": "02-02-2021"
+    }
+]
