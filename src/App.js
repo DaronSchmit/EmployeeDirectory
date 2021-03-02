@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import EmployeeCard from "./components/EmployeeCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
@@ -10,8 +11,9 @@ class App extends Component {
   state = {
     employees,
     search: "",
-    searchBy:"name",
-    backup: employees
+    searchBy: "name",
+    backup: employees,
+    users: []
   };
 
   removeEmployee = id => {
@@ -22,20 +24,20 @@ class App extends Component {
   };
 
   //pulled sorting from stackoverflow
-  compareName = ( a, b ) => {
-    if ( a.name < b.name ){
+  compareName = (a, b) => {
+    if (a.name < b.name) {
       return -1;
     }
-    if ( a.name > b.name ){
+    if (a.name > b.name) {
       return 1;
     }
     return 0;
   }
-  
+
   handleInputChange = event => {
-    const {value} = event.target;
+    const { value } = event.target;
     const searchBy = [this.state.searchBy];
-    this.setState({name:value});
+    this.setState({ name: value });
     const searchedEmployees = this.state.backup.filter(employee => {
       return employee[searchBy].toLowerCase().includes(value.toLowerCase());
     });
@@ -51,24 +53,34 @@ class App extends Component {
   };
 
   handleCategoryChange = event => {
-    const {value} = event.target
+    const { value } = event.target
     this.setState({
-      searchBy:value
+      searchBy: value
     })
+  }
+
+  componentDidMount() {
+    axios.get('https://randomuser.me/api/?inc=name,location,email,registered,id,picture&results=20&noinfo')
+      .then(res => {
+        const users = res.data;
+        console.log(users);
+        this.setState({ users });
+      })
   }
 
   // Map over this.state.employees and render a employeeCard component for each employee object
   render() {
     return (
       <Wrapper>
-      <div>
-        <p>
-          searching by {this.state.searchBy} for {this.state.search}
-        </p>
-        <Form handleCategoryChange={this.handleCategoryChange} handleInputChange={this.handleInputChange} search={this.state.search} />
-      </div>        <Title>Employee Directory</Title>
+        <div>
+          <p>
+            searching by {this.state.searchBy} for {this.state.search}
+          </p>
+          <Form handleCategoryChange={this.handleCategoryChange} handleInputChange={this.handleInputChange} search={this.state.search} />
+        </div>
+        <Title>Employee Directory</Title>
         <button onClick={() => this.sortByName(employees)}>Sort by Name</button>
-        {this.state.employees.map(employee => (
+        {/* {this.state.employees.map(employee => (
           <EmployeeCard
             removeEmployee={this.removeEmployee}
             id={employee.id}
@@ -78,7 +90,8 @@ class App extends Component {
             occupation={employee.occupation}
             location={employee.location}
           />
-        ))}
+        ))} */}
+        {/* users component */}
       </Wrapper>
     );
   }
