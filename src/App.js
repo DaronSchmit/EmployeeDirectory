@@ -9,7 +9,9 @@ class App extends Component {
   // Setting this.state.employees to the employees json array
   state = {
     employees,
-    name: "bill"
+    search: "",
+    searchBy:"name",
+    backup: employees
   };
 
   removeEmployee = id => {
@@ -31,30 +33,40 @@ class App extends Component {
   }
   
   handleInputChange = event => {
-    // Getting the value and name of the input which triggered the change
-    let value = event.target.value;
-    const name = event.target.name;
-
-    // employees = this.state.employees.filter(employee => employee.name.includes(value))
-
-    // Updating the input's state
-    this.setState({
-      [name]: value,
-      employees
+    const {value} = event.target;
+    const searchBy = [this.state.searchBy];
+    this.setState({name:value});
+    const searchedEmployees = this.state.backup.filter(employee => {
+      return employee[searchBy].toLowerCase().includes(value.toLowerCase());
     });
-  };
+    this.setState({
+      employees: searchedEmployees,
+      search: value
+    })
+  }
 
   sortByName = (objs) => {
     console.log(objs)
     this.setState(objs.sort(this.compareName));
   };
 
+  handleCategoryChange = event => {
+    const {value} = event.target
+    this.setState({
+      searchBy:value
+    })
+  }
+
   // Map over this.state.employees and render a employeeCard component for each employee object
   render() {
     return (
       <Wrapper>
-        <Form name={this.state.name} inputChange={this.handleInputChange}/>
-        <Title>Employee Directory</Title>
+      <div>
+        <p>
+          searching by {this.state.searchBy} for {this.state.search}
+        </p>
+        <Form handleCategoryChange={this.handleCategoryChange} handleInputChange={this.handleInputChange} search={this.state.search} />
+      </div>        <Title>Employee Directory</Title>
         <button onClick={() => this.sortByName(employees)}>Sort by Name</button>
         {this.state.employees.map(employee => (
           <EmployeeCard
