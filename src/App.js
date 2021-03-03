@@ -13,7 +13,7 @@ class App extends Component {
     employees,
     search: "",
     query: "search",
-    queryAttribute: ".name.last",
+    queryAttribute: "name",
     backup: employees,
     users: []
   };
@@ -26,16 +26,15 @@ class App extends Component {
   };
 
   //pulled sorting from stackoverflow
-  compareByLastName = (a, b) => {
-    console.log("someothing");
-    if (a["name"]["last"] < b["name"]["last"]) {
+  compareBy = (a, b) => {
+    if (a[this.state.queryAttribute] < b[this.state.queryAttribute]) {
       return -1;
     }
-    if (a["name"]["last"] > b["name"]["last"]) {
+    if (a[this.state.queryAttribute] > b[this.state.queryAttribute]) {
       return 1;
     }
     return 0;
-  }
+  };
 
   handleInputChange = event => {
     const { value } = event.target;
@@ -47,31 +46,19 @@ class App extends Component {
     this.setState({
       employees: searchedEmployees,
       search: value
-    })
-  }
+    });
+  };
 
   handleOnClick = (e) => {
     e.preventDefault();
     console.log(`${this.state.query}ing by ${this.state.queryAttribute  }`);
-    this.setState(this.state.employees.sort(this.compareBy));
+    this.setState(this.state.users.sort(this.compareBy));
 
   };
 
   handleAttributeChange = event => {
     let { value } = event.target;
-    switch(value){
-      case "last name":
-        console.log("attribute changed to last name")
-        this.setState(this.state.employees.sort(this.compareByLastName));
-        break;
-      case "registered":
-        value="registered.date"
-        break;
-      default:
-        console.log("defaulted");
-        break;
-    }
-
+    this.setState({queryAttribute: value})
   };
 
   handleQueryChange = event => {
@@ -81,7 +68,7 @@ class App extends Component {
     this.setState({
       query: value
     })
-  }
+  };
 
   componentDidMount(){
     axios.get('https://randomuser.me/api/?inc=name,location,email,registered,id,picture&results=20&noinfo')
@@ -89,7 +76,7 @@ class App extends Component {
         const users = res.data.results.map(user => (
           {
             name: user.name.last+', '+user.name.first,
-            email: user.name.email,
+            email: user.email,
             registered: new Date(user.registered.date).toDateString(),
             picture: user.picture.medium,
             location: user.location.city+', '+user.location.state+', '+user.location.country
@@ -97,8 +84,8 @@ class App extends Component {
         ));
         this.setState({users});
         console.log(users);
-        })
-}
+        });
+  };
 
 
   // Map over this.state.employees and render a employeeCard component for each employee object
