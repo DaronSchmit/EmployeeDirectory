@@ -11,8 +11,8 @@ function Form (props) {
           </select>
           By 
           <select onChange={props.handleAttributeChange}>
-            <option id="0">name</option>
-            <option id="1">occupation</option>
+            <option id="0" query-attribute="name.last">last name</option>
+            <option id="1" query-attribute="registered.date">registered</option>
           </select>
           <Interact data={props.data} handleOnClick={props.handleOnClick} handleInputChange={props.handleInputChange}/>
         </form>

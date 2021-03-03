@@ -1,7 +1,6 @@
 import React from "react";
 
 function UserCard(props) {
-    console.log(props.user); 
     let regDate = new Date(props.user.registered.date).toDateString();;
     return (
         <div className="col">

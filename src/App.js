@@ -13,7 +13,7 @@ class App extends Component {
     employees,
     search: "",
     query: "search",
-    queryAttribute: "name",
+    queryAttribute: ".name.last",
     backup: employees,
     users: []
   };
@@ -26,11 +26,12 @@ class App extends Component {
   };
 
   //pulled sorting from stackoverflow
-  compareBy = (a, b) => {
-    if (a[this.state.queryAttribute] < b[this.state.queryAttribute]) {
+  compareByLastName = (a, b) => {
+    console.log("someothing");
+    if (a["name"]["last"] < b["name"]["last"]) {
       return -1;
     }
-    if (a[this.state.queryAttribute] > b[this.state.queryAttribute]) {
+    if (a["name"]["last"] > b["name"]["last"]) {
       return 1;
     }
     return 0;
@@ -51,20 +52,31 @@ class App extends Component {
 
   handleOnClick = (e) => {
     e.preventDefault();
-    console.log(`${this.state.query}ing by ${this.state.queryAttribute  }`)
+    console.log(`${this.state.query}ing by ${this.state.queryAttribute  }`);
     this.setState(this.state.employees.sort(this.compareBy));
+
   };
 
   handleAttributeChange = event => {
-    const { value } = event.target;
-    console.log(`Attribute changed to ${value}`);
-    this.setState({
-      queryAttribute: value
-    })
+    let { value } = event.target;
+    switch(value){
+      case "last name":
+        console.log("attribute changed to last name")
+        this.setState(this.state.employees.sort(this.compareByLastName));
+        break;
+      case "registered":
+        value="registered.date"
+        break;
+      default:
+        console.log("defaulted");
+        break;
+    }
+
   };
 
   handleQueryChange = event => {
-    const { value } = event.target
+    const { value } = event.target;
+    console.log(event);
     console.log(`Query changed to ${value}`);
     this.setState({
       query: value
@@ -76,7 +88,7 @@ class App extends Component {
         .then(res => {
         const users = res.data;
         this.setState({users: users.results});
-        // console.log(this.state.users);
+        console.log(this.state.users[0][this.state.queryAttribute]);
         })
 }
 
