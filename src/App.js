@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
-import EmployeeCard from "./components/EmployeeCard";
+// import EmployeeCard from "./components/EmployeeCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
 import employees from "./employees.json";
@@ -71,14 +71,14 @@ class App extends Component {
     })
   }
 
-  componentDidMount() {
+  componentDidMount(){
     axios.get('https://randomuser.me/api/?inc=name,location,email,registered,id,picture&results=20&noinfo')
-      .then(res => {
+        .then(res => {
         const users = res.data;
-        console.log(users);
-        this.setState({ users });
-      })
-  }
+        this.setState({users: users.results});
+        // console.log(this.state.users);
+        })
+}
 
   // Map over this.state.employees and render a employeeCard component for each employee object
   render() {
@@ -86,7 +86,7 @@ class App extends Component {
       <Wrapper>
         <Title>Employee Directory</Title>
         <Search handleQueryChange={this.handleQueryChange} handleAttributeChange={this.handleAttributeChange} handleInputChange={this.handleInputChange} handleOnClick={this.handleOnClick} data={this.state}/>
-        {this.state.employees.map(employee => (
+        {/* {this.state.employees.map(employee => (
           <EmployeeCard
             removeEmployee={this.removeEmployee}
             id={employee.id}
@@ -96,7 +96,10 @@ class App extends Component {
             occupation={employee.occupation}
             location={employee.location}
           />
-        ))}
+        ))} */}
+        <div className="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
+          {this.state.users.map(user => (<UserCard user={user}/>))};
+        </div>
       </Wrapper>
     );
   }

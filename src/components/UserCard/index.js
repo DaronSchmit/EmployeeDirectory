@@ -1,11 +1,19 @@
 import React from "react";
-import "./style.css";
 
 function UserCard(props) {
+    console.log(props.user); 
+    let regDate = new Date(props.user.registered.date).toDateString();;
     return (
-        <div className="card">
-            <div className="img-container">
-                <img alt={props.name.first} src={props.picture.thumbnail} />
+        <div className="col">
+            <div className="card mb-3">
+                <img className="card-img-top" src={props.user.picture.medium} className="card-img-top" alt={`${props.user.name.first} ${props.user.name.last}`}></img>
+                <div className="card-body">
+                    <h5 className="card-title">{props.user.name.first} {props.user.name.last}</h5>
+                    <p className="card-text">Email: {props.user.email}</p>              
+                </div>
+                <div className="card-footer">
+                    <small class="text-muted">Registered: {regDate}</small>
+                </div>
             </div>
         </div>
     )
