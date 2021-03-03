@@ -86,11 +86,20 @@ class App extends Component {
   componentDidMount(){
     axios.get('https://randomuser.me/api/?inc=name,location,email,registered,id,picture&results=20&noinfo')
         .then(res => {
-        const users = res.data;
-        this.setState({users: users.results});
-        console.log(this.state.users[0][this.state.queryAttribute]);
+        const users = res.data.results.map(user => (
+          {
+            name: user.name.last+', '+user.name.first,
+            email: user.name.email,
+            registered: new Date(user.registered.date).toDateString(),
+            picture: user.picture.medium,
+            location: user.location.city+', '+user.location.state+', '+user.location.country
+          }
+        ));
+        this.setState({users});
+        console.log(users);
         })
 }
+
 
   // Map over this.state.employees and render a employeeCard component for each employee object
   render() {
