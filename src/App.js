@@ -46,6 +46,9 @@ class App extends Component {
 
   handleAttributeChange = event => {
     let { value } = event.target;
+    if(value === "registered"){
+      value="dateRegistered";
+    };
     this.setState({queryAttribute: value})
   };
 
