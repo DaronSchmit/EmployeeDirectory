@@ -14,7 +14,7 @@ function Form (props) {
             <option id="0">name</option>
             <option id="1">occupation</option>
           </select>
-          <Interact data={props.data} handleInputChange={props.handleInputChange}/>
+          <Interact data={props.data} handleOnClick={props.handleOnClick} handleInputChange={props.handleInputChange}/>
         </form>
     );
   }

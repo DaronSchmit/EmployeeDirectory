@@ -49,9 +49,10 @@ class App extends Component {
     })
   }
 
-  handleOnClick = (objs) => {
+  handleOnClick = (e) => {
+    e.preventDefault();
     console.log(`${this.state.query}ing by ${this.state.queryAttribute  }`)
-    this.setState(objs.sort(this.compareBy));
+    this.setState(this.state.employees.sort(this.compareBy));
   };
 
   handleAttributeChange = event => {
