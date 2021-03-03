@@ -1,28 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
-// import EmployeeCard from "./components/EmployeeCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
-import employees from "./employees.json";
 import UserCard from "./components/UserCard";
 import Search from "./components/Search";
 
 class App extends Component {
-  // Setting this.state.employees to the employees json array
   state = {
-    employees,
     search: "",
     query: "search",
     queryAttribute: "name",
-    backup: employees,
-    users: []
-  };
-
-  removeEmployee = id => {
-    // Filter this.state.employees for employees with an id not equal to the id being removed
-    const employees = this.state.employees.filter(employee => employee.id !== id);
-    // Set this.state.employees equal to the new employees array
-    this.setState({ employees });
+    users: [],
+    backup: [],
   };
 
   //pulled sorting from stackoverflow
@@ -38,13 +27,14 @@ class App extends Component {
 
   handleInputChange = event => {
     const { value } = event.target;
+    console.log(value);
     const queryAttribute = [this.state.queryAttribute];
     this.setState({ name: value });
-    const searchedEmployees = this.state.backup.filter(employee => {
-      return employee[queryAttribute].toLowerCase().includes(value.toLowerCase());
+    const searchedUsers = this.state.users.filter(user => {
+      return user[queryAttribute].toLowerCase().includes(value.toLowerCase());
     });
     this.setState({
-      employees: searchedEmployees,
+      users: searchedUsers,
       search: value
     });
   };
@@ -77,7 +67,8 @@ class App extends Component {
           {
             name: user.name.last+', '+user.name.first,
             email: user.email,
-            registered: new Date(user.registered.date).toDateString(),
+            registered: new Date(user.registered.date).getTime(),
+            dateRegistered: new Date(user.registered.date).toDateString(),
             picture: user.picture.medium,
             location: user.location.city+', '+user.location.state+', '+user.location.country
           }
@@ -94,17 +85,6 @@ class App extends Component {
       <Wrapper>
         <Title>Employee Directory</Title>
         <Search handleQueryChange={this.handleQueryChange} handleAttributeChange={this.handleAttributeChange} handleInputChange={this.handleInputChange} handleOnClick={this.handleOnClick} data={this.state}/>
-        {/* {this.state.employees.map(employee => (
-          <EmployeeCard
-            removeEmployee={this.removeEmployee}
-            id={employee.id}
-            key={employee.id}
-            name={employee.name}
-            image={employee.image}
-            occupation={employee.occupation}
-            location={employee.location}
-          />
-        ))} */}
         <div className="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
           {this.state.users.map(user => (<UserCard user={user}/>))};
         </div>

@@ -10,7 +10,7 @@ function UserCard(props) {
                     <p className="card-text">Email: {props.user.email}</p>              
                 </div>
                 <div className="card-footer">
-                    <small class="text-muted">Registered: {props.user.registered}</small>
+                    <small class="text-muted">Registered: {props.user.dateRegistered}</small>
                 </div>
             </div>
         </div>
