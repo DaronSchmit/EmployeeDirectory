@@ -27,7 +27,6 @@ class App extends Component {
 
   handleInputChange = event => {
     const { value } = event.target;
-    console.log(value);
     const queryAttribute = [this.state.queryAttribute];
     this.setState({ name: value });
     const searchedUsers = this.state.backup.filter(user => {
@@ -41,7 +40,6 @@ class App extends Component {
 
   handleOnClick = (e) => {
     e.preventDefault();
-    console.log(`${this.state.query}ing by ${this.state.queryAttribute  }`);
     this.setState(this.state.users.sort(this.compareBy));
 
   };
@@ -53,8 +51,6 @@ class App extends Component {
 
   handleQueryChange = event => {
     const { value } = event.target;
-    console.log(event);
-    console.log(`Query changed to ${value}`);
     this.setState({
       query: value
     })
@@ -74,7 +70,6 @@ class App extends Component {
           }
         ));
         this.setState({users:users, backup: users});
-        console.log(users);
         });
   };
 
