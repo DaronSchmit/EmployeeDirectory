@@ -3,15 +3,17 @@ import axios from "axios";
 import EmployeeCard from "./components/EmployeeCard";
 import Wrapper from "./components/Wrapper";
 import Title from "./components/Title";
-import Form from "./components/Form";
 import employees from "./employees.json";
+import UserCard from "./components/UserCard";
+import Search from "./components/Search";
 
 class App extends Component {
   // Setting this.state.employees to the employees json array
   state = {
     employees,
     search: "",
-    searchBy: "name",
+    query: "search",
+    queryAttribute: "name",
     backup: employees,
     users: []
   };
@@ -24,11 +26,11 @@ class App extends Component {
   };
 
   //pulled sorting from stackoverflow
-  compareName = (a, b) => {
-    if (a.name < b.name) {
+  compareBy = (a, b) => {
+    if (a[this.state.queryAttribute] < b[this.state.queryAttribute]) {
       return -1;
     }
-    if (a.name > b.name) {
+    if (a[this.state.queryAttribute] > b[this.state.queryAttribute]) {
       return 1;
     }
     return 0;
@@ -36,10 +38,10 @@ class App extends Component {
 
   handleInputChange = event => {
     const { value } = event.target;
-    const searchBy = [this.state.searchBy];
+    const queryAttribute = [this.state.queryAttribute];
     this.setState({ name: value });
     const searchedEmployees = this.state.backup.filter(employee => {
-      return employee[searchBy].toLowerCase().includes(value.toLowerCase());
+      return employee[queryAttribute].toLowerCase().includes(value.toLowerCase());
     });
     this.setState({
       employees: searchedEmployees,
@@ -47,15 +49,24 @@ class App extends Component {
     })
   }
 
-  sortByName = (objs) => {
-    console.log(objs)
-    this.setState(objs.sort(this.compareName));
+  handleOnClick = (objs) => {
+    console.log(`${this.state.query}ing by ${this.state.queryAttribute  }`)
+    this.setState(objs.sort(this.compareBy));
   };
 
-  handleCategoryChange = event => {
-    const { value } = event.target
+  handleAttributeChange = event => {
+    const { value } = event.target;
+    console.log(`Attribute changed to ${value}`);
     this.setState({
-      searchBy: value
+      queryAttribute: value
+    })
+  };
+
+  handleQueryChange = event => {
+    const { value } = event.target
+    console.log(`Query changed to ${value}`);
+    this.setState({
+      query: value
     })
   }
 
@@ -72,15 +83,9 @@ class App extends Component {
   render() {
     return (
       <Wrapper>
-        <div>
-          <p>
-            searching by {this.state.searchBy} for {this.state.search}
-          </p>
-          <Form handleCategoryChange={this.handleCategoryChange} handleInputChange={this.handleInputChange} search={this.state.search} />
-        </div>
         <Title>Employee Directory</Title>
-        <button onClick={() => this.sortByName(employees)}>Sort by Name</button>
-        {/* {this.state.employees.map(employee => (
+        <Search handleQueryChange={this.handleQueryChange} handleAttributeChange={this.handleAttributeChange} handleInputChange={this.handleInputChange} handleOnClick={this.handleOnClick} data={this.state}/>
+        {this.state.employees.map(employee => (
           <EmployeeCard
             removeEmployee={this.removeEmployee}
             id={employee.id}
@@ -90,8 +95,7 @@ class App extends Component {
             occupation={employee.occupation}
             location={employee.location}
           />
-        ))} */}
-        {/* users component */}
+        ))}
       </Wrapper>
     );
   }

@@ -1,25 +1,23 @@
-import React, { Component } from "react";
+import React from "react";
+import Interact from "../Interact";
 
-class Form extends Component {
-  render() {
-    // Notice how each input has a `value`, `name`, and `onChange` prop
+function Form (props) {
     return (
-<form className="form">
-          <input
-            value={this.props.search}
-            name="name"
-            onChange={this.props.handleInputChange}
-            type="text"
-            placeholder="Employee Name"
-          />
-          <select onChange={this.props.handleCategoryChange}>
-            <option id="0">name</option>
-            <option od="1">occupation</option>
+      <form className="form">
+          <select onChange={props.handleQueryChange}>
+            <option id="0">search</option>
+            <option id="1">filter</option>
+            <option id="2">sort</option>
           </select>
+          By 
+          <select onChange={props.handleAttributeChange}>
+            <option id="0">name</option>
+            <option id="1">occupation</option>
+          </select>
+          <Interact data={props.data} handleInputChange={props.handleInputChange}/>
         </form>
-
     );
   }
-}
+
 
 export default Form;
