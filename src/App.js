@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Wrapper from "./components/Wrapper";
-import Title from "./components/Title";
 import UserCard from "./components/UserCard";
 import Search from "./components/Search";
 
@@ -81,7 +80,11 @@ class App extends Component {
   render() {
     return (
       <Wrapper>
-        <Title>Employee Directory</Title>
+        <div className = "row mb-2">
+          <div className="col-12 text-center">
+            <h1 className="display-1">User Directory</h1>
+          </div>
+        </div>
         <Search handleQueryChange={this.handleQueryChange} handleAttributeChange={this.handleAttributeChange} handleInputChange={this.handleInputChange} handleOnClick={this.handleOnClick} data={this.state}/>
         <div className="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 g-4">
           {this.state.users.map(user => (<UserCard user={user}/>))};
