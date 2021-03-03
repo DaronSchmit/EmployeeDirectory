@@ -11,7 +11,7 @@ class App extends Component {
     query: "search",
     queryAttribute: "name",
     users: [],
-    backup: [],
+    backup: []
   };
 
   //pulled sorting from stackoverflow
@@ -30,7 +30,7 @@ class App extends Component {
     console.log(value);
     const queryAttribute = [this.state.queryAttribute];
     this.setState({ name: value });
-    const searchedUsers = this.state.users.filter(user => {
+    const searchedUsers = this.state.backup.filter(user => {
       return user[queryAttribute].toLowerCase().includes(value.toLowerCase());
     });
     this.setState({
@@ -73,13 +73,13 @@ class App extends Component {
             location: user.location.city+', '+user.location.state+', '+user.location.country
           }
         ));
-        this.setState({users});
+        this.setState({users:users, backup: users});
         console.log(users);
         });
   };
 
 
-  // Map over this.state.employees and render a employeeCard component for each employee object
+  // Map over this.state.users and render a UserCard component for each employee object
   render() {
     return (
       <Wrapper>
